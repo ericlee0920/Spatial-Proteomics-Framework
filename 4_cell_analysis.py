@@ -70,14 +70,14 @@ def plot_cell_stats(cell_df, roi, out_dir):
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description="Visualization of results from analysis.",
-    #                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    # parser.add_argument('-d', '--dirs', nargs='+', default=[], help="Directories to process", required=True)
-    # args = parser.parse_args()
-    # data_dirs = args.dirs
+    parser = argparse.ArgumentParser(description="Visualization of results from analysis.",
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-d', '--dirs', nargs='+', default=[], help="Directories to process", required=True)
+    args = parser.parse_args()
+    data_dirs = args.dirs
 
     # INPUTS example
-    data_dirs = ["test2_analysis"]
+    # data_dirs = ["test2_analysis"]
 
     """
     Visualization
