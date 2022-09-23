@@ -62,6 +62,10 @@ A framework for processing spatial proteomics data from images to analysis.
     - drop the directory `DIRECTORY_NAME_analysis/cpout` into the window under Images
     - set *Input Settings* to `DIRECTORY_NAME_analysis/cpinp`
     - set *Output Settings* to `DIRECTORY_NAME_analysis/cpout`
+    - set channels in the **first** *MeasureObjectIntensityMultichannel* to the number of full channels in *panel.csv* (default is 40)
+    - set channels in the **first** *MeasureImageIntensityMultichannel* to the number of full channels in *panel.csv* (default is 40)
+    - optionally set channels in the **second** *MeasureObjectIntensityMultichannel* to the number of labels made in Ilastik (e.g. nucleus, cytoplasm, background default is 3)
+    - optionally set channels in the **second** *MeasureImageIntensityMultichannel* to the number of labels made in Ilastik (e.g. nucleus, cytoplasm, background default is 3)
     - press *Analyze Images*
 
 2. Output
