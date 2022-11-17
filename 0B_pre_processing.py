@@ -62,7 +62,7 @@ def sort_channels_by_mass(channels: Sequence[str]) -> List[str]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Preprocess MCD files from Fluidigm IMC.",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-d', '--dirs', nargs='+', default=[], help="Directories to process", required=True)
+    parser.add_argument('-d', '--dirs', default=str, help="Directories to process", required=True)
     args = parser.parse_args()
     str_dir = args.dirs
 
