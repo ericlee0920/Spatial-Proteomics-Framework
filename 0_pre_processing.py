@@ -332,7 +332,7 @@ if __name__ == "__main__":
     data_dirs = args.dirs
 
     # INPUTS example
-    # data_dirs = ["data/20220330_chl_titration_slide_2", "data/20220728_chl_titration_slide_3"]
+    # data_dirs = ["XP4570"]
 
     """
     Pre-processing
