@@ -154,6 +154,25 @@ def plot_cluster_mean_heatmap(cluster_mean, run_name, out_dir):
     plt.clf()
 
 
+def plot_cell_count(cell_count, run_name, out_dir):
+    fig, ax = plt.subplots(1, 1, figsize=(3.8, 2.5), dpi=500)
+
+    sns.barplot(data=cell_count, x="ROI", y="Count")
+
+    plt.xlabel("ROI", fontsize=6)
+    plt.ylabel("Cell Count", fontsize=6)
+    plt.xticks(fontsize=6)
+    plt.yticks(fontsize=6)
+
+    box = ax.get_position()
+    ax.set_position(
+        [box.x0 + box.height * 0.025, box.y0 + box.height * 0.1, box.width, box.height - box.height * 0.1])
+    plt.title(f"{run_name} cell count", weight='bold', fontsize=8)
+
+    plt.savefig(out_dir / f"{run_name}_mean_cell_count.png")
+    plt.clf()
+
+
 if __name__ == '__main__':
     # parser = argparse.ArgumentParser(description="Visualization of results from analysis.",
     #                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -162,49 +181,49 @@ if __name__ == '__main__':
     # data_dirs = args.dirs
 
     # INPUTS example
-    data_dirs = ["XP4571_analysis", "XP4572_analysis"]
+    data_dirs = ["XP4570_analysis", "XP4571_analysis", "XP4572_analysis"]
 
-    # Step 1: Process the data
-    for str_dir in data_dirs:
-        run_name = str_dir.split("_")[0]
-        print(f"Processing {run_name}")
-
-        # Get path
-        path_dir = Path(str_dir)
-
-        # Output dirs
-        out_dir = path_dir / "viz"
-        os.makedirs(out_dir, exist_ok=True)
-
-        # Get data
-        cell_df = pd.read_csv(path_dir / "cpout" / "cell.csv")
-        rel_df = pd.read_csv(path_dir / "cpout" / "Object relationships.csv")
-        panel_df = pd.read_csv(path_dir / "cpout" / "panel.csv")
-        panel_arr = panel_df[panel_df.full == 1].Target.values
-
-        # Normalize data and output to csv
-        exp_df, loc_df, rel_df = process_data(cell_df, rel_df, panel_arr)
-        df_to_csv(exp_df, loc_df, rel_df, run_name, out_dir)
-
-    # Step 2: Cluster the data
-    for str_dir in data_dirs:
-        run_name = str_dir.split("_")[0]
-        print(f"Clustering {run_name}")
-
-        # Get path
-        path_dir = Path(str_dir)
-
-        # Output dirs
-        out_dir = path_dir / "viz"
-
-        # Get data
-        exp_df = pd.read_csv(out_dir / f"{run_name}_exp.csv")
-
-        # Cluster
-        communities, graph, Q = phenograph.cluster(exp_df.iloc[:, 1:], k=200)
-        pd.concat([exp_df.iloc[:, 0],
-                   pd.Series(communities, name="label")], axis=1)\
-            .to_csv(out_dir / f"{run_name}_labels.csv", index=False)
+    # # Step 1: Process the data
+    # for str_dir in data_dirs:
+    #     run_name = str_dir.split("_")[0]
+    #     print(f"Processing {run_name}")
+    #
+    #     # Get path
+    #     path_dir = Path(str_dir)
+    #
+    #     # Output dirs
+    #     out_dir = path_dir / "viz"
+    #     os.makedirs(out_dir, exist_ok=True)
+    #
+    #     # Get data
+    #     cell_df = pd.read_csv(path_dir / "cpout" / "cell.csv")
+    #     rel_df = pd.read_csv(path_dir / "cpout" / "Object relationships.csv")
+    #     panel_df = pd.read_csv(path_dir / "cpout" / "panel.csv")
+    #     panel_arr = panel_df[panel_df.full == 1].Target.values
+    #
+    #     # Normalize data and output to csv
+    #     exp_df, loc_df, rel_df = process_data(cell_df, rel_df, panel_arr)
+    #     df_to_csv(exp_df, loc_df, rel_df, run_name, out_dir)
+    #
+    # # Step 2: Cluster the data
+    # for str_dir in data_dirs:
+    #     run_name = str_dir.split("_")[0]
+    #     print(f"Clustering {run_name}")
+    #
+    #     # Get path
+    #     path_dir = Path(str_dir)
+    #
+    #     # Output dirs
+    #     out_dir = path_dir / "viz"
+    #
+    #     # Get data
+    #     exp_df = pd.read_csv(out_dir / f"{run_name}_exp.csv")
+    #
+    #     # Cluster
+    #     communities, graph, Q = phenograph.cluster(exp_df.iloc[:, 1:], k=200)
+    #     pd.concat([exp_df.iloc[:, 0],
+    #                pd.Series(communities, name="label")], axis=1)\
+    #         .to_csv(out_dir / f"{run_name}_labels.csv", index=False)
 
     # Step 3: Visualize the data
     for str_dir in data_dirs:
@@ -249,3 +268,8 @@ if __name__ == '__main__':
         cluster_mean = pd.concat(
             [exp_df.iloc[np.where(label_df.label == i)[0], 1:].mean() for i in range(label_df.label.max()+1)], axis=1)
         plot_cluster_mean_heatmap(cluster_mean, run_name, out_dir)
+
+        # Fig 4: Plot cell count
+        cell_count = exp_df.ImageNumber.value_counts(sort=False).reset_index()
+        cell_count.columns = ["ROI", "Count"]
+        plot_cell_count(cell_count, run_name, out_dir)
