@@ -332,7 +332,7 @@ if __name__ == "__main__":
     data_dirs = args.dirs
 
     # INPUTS example
-    # data_dirs = ["XP4570"]
+    # data_dirs = ["220728_1", "220728_2", "220728_3"]
 
     """
     Pre-processing
