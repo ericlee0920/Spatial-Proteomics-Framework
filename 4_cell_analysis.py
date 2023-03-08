@@ -139,8 +139,8 @@ def plot_cluster_mean_heatmap(cluster_mean, run_name, out_dir):
 
     sns.heatmap(cluster_mean, cmap="coolwarm", ax=ax)
 
-    plt.xlabel("Marker", fontsize=6)
-    plt.ylabel("Label", fontsize=6)
+    plt.xlabel("Label", fontsize=6)
+    plt.ylabel("Marker", fontsize=6)
     plt.xticks(fontsize=6)
     plt.yticks(fontsize=6)
 
@@ -266,7 +266,10 @@ if __name__ == '__main__':
 
         # Get data
         exp_df = pd.read_csv(out_dir / f"{run_name}_exp.csv")
-        exp_df = exp_df[[exp_df.columns[0]] + list(exp_df.iloc[:, 1:].mean().sort_values().index)]
+        exp_df = exp_df[['ImageNumber', 'CD3e', 'EGFR', 'SMA', 'p53', 'Ki67', 'CD20', 'CD45', 'Vimentin', 'CK5',
+                          'CK8-18', 'CAIX', 'CK19', 'CD31', 'CD68', 'Slug', 'c-erbB2', 'B-Catenin', 'PR-AB',
+                          'GATA3', 'ER-A', 'CK7', 'panCK']]
+        # exp_df = exp_df[[exp_df.columns[0]] + list(exp_df.iloc[:, 1:].mean().sort_values().index)]
         loc_df = pd.read_csv(out_dir / f"{run_name}_loc.csv")
         rel_df = pd.read_csv(out_dir / f"{run_name}_rel.csv")
         label_df = pd.read_csv(out_dir / f"{run_name}_labels.csv")
