@@ -92,9 +92,3 @@ A framework for processing spatial proteomics data from images to analysis. Modi
     - All files will be in a directory named `DIRECTORY_NAME_analysis/cpout`
     - Expression features are stored in `cpout/cell.csv`
     - Spatial features are stored in `cpout/Object relationships.csv`
-
-## Process 4: Visualize cell area and intensity level for each marker
-1. Run `python 4_cell_analysis.py -d DIRECTORY_NAME_analysis`
-
-2. Output
-    - all files will be in a directory named *DIRECTORY_NAME_analysis/viz*
